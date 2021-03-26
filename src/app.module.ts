@@ -5,6 +5,9 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BrandModule } from './qrcode/brand/brand.module';
 import { FileuploadModule } from './fileupload/fileupload.module';
+import { Coupon } from './qrcode/coupon/entities/coupon.entity';
+import { Brand } from './qrcode/brand/entities/brand.entity';
+import { Picture } from './fileupload/entities/picture.entity';
 
 @Module({
   imports: [
@@ -18,7 +21,7 @@ import { FileuploadModule } from './fileupload/fileupload.module';
       username: process.env.DATABASE_USER || 'root',
       password: process.env.DATABASE_PASSWORD || '',
       database: process.env.DATABASE_NAME || 'db_name',
-      entities: [],
+      entities: [Coupon, Brand, Picture],
       synchronize: true,
     }),
     BrandModule,
