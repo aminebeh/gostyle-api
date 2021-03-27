@@ -8,6 +8,7 @@ import { FileuploadModule } from './fileupload/fileupload.module';
 import { Coupon } from './qrcode/coupon/entities/coupon.entity';
 import { Brand } from './qrcode/brand/entities/brand.entity';
 import { Picture } from './fileupload/entities/picture.entity';
+import { CouponModule } from './qrcode/coupon/coupon.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Picture } from './fileupload/entities/picture.entity';
       entities: [Coupon, Brand, Picture],
       synchronize: true,
     }),
+    CouponModule,
     BrandModule,
     FileuploadModule,
   ],

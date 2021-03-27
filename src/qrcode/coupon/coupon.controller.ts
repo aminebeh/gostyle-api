@@ -17,7 +17,12 @@ export class CouponController {
 
   @Post()
   create(@Body() createCouponDto: CreateCouponDto) {
-    return this.couponService.create(createCouponDto);
+    return this.couponService.insert(createCouponDto);
+  }
+
+  @Post('batch')
+  batchInsert(@Body() createCouponDtos: CreateCouponDto[]) {
+    return this.couponService.create(createCouponDtos);
   }
 
   @Get()
