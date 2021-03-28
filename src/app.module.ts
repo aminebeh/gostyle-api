@@ -9,6 +9,8 @@ import { Coupon } from './qrcode/coupon/entities/coupon.entity';
 import { Brand } from './qrcode/brand/entities/brand.entity';
 import { Picture } from './fileupload/entities/picture.entity';
 import { CouponModule } from './qrcode/coupon/coupon.module';
+import { AuthModule } from './auth/auth.module';
+import { User } from './auth/user.entity';
 
 @Module({
   imports: [
@@ -22,12 +24,13 @@ import { CouponModule } from './qrcode/coupon/coupon.module';
       username: process.env.DATABASE_USER || 'root',
       password: process.env.DATABASE_PASSWORD || '',
       database: process.env.DATABASE_NAME || 'db_name',
-      entities: [Coupon, Brand, Picture],
+      entities: [Coupon, Brand, Picture, User],
       synchronize: true,
     }),
     CouponModule,
     BrandModule,
     FileuploadModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
