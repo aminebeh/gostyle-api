@@ -17,8 +17,9 @@ export class CouponService {
   }
 
   async insert(createCouponDto: CreateCouponDto) {
-    await this.usersRepository.insert(createCouponDto);
-    return createCouponDto;
+    return this.usersRepository.save(
+      this.usersRepository.create(createCouponDto),
+    );
   }
 
   findAll() {
