@@ -4,7 +4,7 @@ import { EntityNotFoundFilter } from './filters/entity-not-found.filter';
 
 async function bootstrap() {
   const port = 3000;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
   app.useGlobalFilters(new EntityNotFoundFilter());
   await app
     .listen(port)
