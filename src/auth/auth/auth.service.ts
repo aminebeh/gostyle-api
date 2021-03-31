@@ -19,7 +19,7 @@ export class AuthService {
             if(!userData){
                 return { status: 404 };
             }
-            let payload = `${userData.name}${userData.id}`;
+            const payload = `${userData.id}`;
             const accessToken = this.jwtService.sign(payload);
 
             return {
@@ -31,7 +31,6 @@ export class AuthService {
 
         });
     }
-
     public async register(user: User): Promise<any>{
         return this.userService.create(user)
     }
