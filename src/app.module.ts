@@ -9,13 +9,15 @@ import { Coupon } from './qrcode/coupon/entities/coupon.entity';
 import { Brand } from './qrcode/brand/entities/brand.entity';
 import { Picture } from './fileupload/entities/picture.entity';
 import { CouponModule } from './qrcode/coupon/coupon.module';
-import { AuthModule } from './auth/auth.module';
-import { User } from './auth/user.entity';
+import { AuthModule } from './auth/auth/auth.module';
+import { User } from './auth/user/entities/user.entity';
+import { UserModule } from './auth/user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env.dev', '.env.prod', '.env'],
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -31,6 +33,7 @@ import { User } from './auth/user.entity';
     BrandModule,
     FileuploadModule,
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

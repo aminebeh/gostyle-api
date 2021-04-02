@@ -1,37 +1,50 @@
-import { JwtService } from  '@nestjs/jwt';
-import { UserService } from  '../user/user.service';
-import {Injectable} from "@nestjs/common";
-import {User} from "../user.entity";
+import { Injectable } from '@nestjs/common';
+import { UserService } from '../user/user.service';
+import { JwtService } from '@nestjs/jwt';
+import { User } from '../user/entities/user.entity';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+
+export interface IJwtTokenPaylaod {
+  sub: string | number;
+  username: string;
+  iat?: number;
+  exp?: number;
+}
 
 @Injectable()
 export class AuthService {
-    constructor(
-        private readonly userService: UserService,
-        private readonly jwtService: JwtService
-    ) { }
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-    private async validate(userData: User): Promise<User> {
-        return await this.userService.findByEmail(userData.email);
+  async validateUser(username: string, pass: string) {
+    //const user = await this.userService.findByUsername(username);
+    const user = await this.userService.findBy([
+      {
+        username: username,
+      },
+      {
+        email: username,
+      },
+    ]);
+    const passwordMatch = await this.userService.comparePassword(user, pass);
+    if (user && passwordMatch) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      return result;
     }
+    return null;
+  }
 
-    public async login(user: User): Promise< any | { status: number }>{
-        return this.validate(user).then((userData)=>{
-            if(!userData){
-                return { status: 404 };
-            }
-            const payload = `${userData.id}`;
-            const accessToken = this.jwtService.sign(payload);
-
-            return {
-                expires_in: 3600,
-                access_token: accessToken,
-                user_id: payload,
-                status: 200
-            };
-
-        });
-    }
-    public async register(user: User): Promise<any>{
-        return this.userService.create(user)
-    }
+  async login(user: any) {
+    const payload: IJwtTokenPaylaod = {
+      username: user.username,
+      sub: user.id,
+      iat: Date.now(),
+    };
+    return {
+      acess_token: this.jwtService.sign(payload),
+    };
+  }
 }
